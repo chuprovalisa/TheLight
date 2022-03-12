@@ -57,10 +57,10 @@ func updateView(on: Bool) {
             
             device.unlockForConfiguration()
         } catch {
-            print("Torch could not be used")
+            print("It is not possible to use")
         }
         
     } else {
-        print("Torch is not available")
+        print("Not available")
     }
 }
