@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -34,9 +35,32 @@ class ViewController: UIViewController {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         isLightColor = isLightColor < 2 ? isLightColor + 1 : 0
         updateUI()
+        updateView(on: true)
     }
 }
 
 //Turn on flashlight
 
-
+func updateView(on: Bool) {
+    guard let device = AVCaptureDevice.default(for: .video)
+    else { return }
+    
+    if device.hasTorch {
+        do {
+            try device.lockForConfiguration()
+            
+            if on == true {
+                device.torchMode = .on
+            } else {
+                device.torchMode = .off
+            }
+            
+            device.unlockForConfiguration()
+        } catch {
+            print("Torch could not be used")
+        }
+        
+    } else {
+        print("Torch is not available")
+    }
+}
